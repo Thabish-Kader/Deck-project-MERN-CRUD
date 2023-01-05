@@ -10,6 +10,7 @@ const PORT = 5001;
 app.use(express.json());
 app.use(cors());
 
+// Routes
 app.get("/decks", async (req: Request, res: Response) => {
 	const Decks = await Deck.find();
 	res.json(Decks);
