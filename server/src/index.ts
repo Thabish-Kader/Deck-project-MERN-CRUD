@@ -19,6 +19,8 @@ app.get("/decks", getDeckController);
 app.post("/decks", createDeckController);
 
 app.delete("/decks/:deckId", deleteDeckController);
+// TODO: create endpoint for card
+// app.delete("/decks/:deckId", deleteDeckController);
 
 // Connection
 mongoose.connect(process.env.MONGO_URL!).then(() => {
