@@ -7,7 +7,7 @@ function App() {
 	const [title, setTitle] = useState("");
 	const [decks, setDecks] = useState<Deck[]>([]);
 
-	const sendTitle = async (e: FormEvent) => {
+	const createDeck = async (e: FormEvent) => {
 		e.preventDefault();
 		const res = await fetch("http://localhost:5001/decks", {
 			method: "POST",
@@ -16,7 +16,8 @@ function App() {
 				"Content-type": "application/json",
 			},
 		});
-		const newDecks = res.json();
+		const newDeck = await res.json();
+		setDecks([...decks, newDeck]);
 
 		setTitle("");
 	};
@@ -25,9 +26,7 @@ function App() {
 		const fetchDecks = async () => {
 			const res = await fetch("http://localhost:5001/decks");
 			const newDecks = await res.json();
-			console.log(newDecks);
 			setDecks(newDecks);
-			// setDecks([...decks], newDecks);
 		};
 		fetchDecks();
 	}, []);
@@ -39,7 +38,7 @@ function App() {
 					<li key={deck._id}>{deck.title}</li>
 				))}
 			</ul>
-			<form onSubmit={sendTitle}>
+			<form onSubmit={createDeck}>
 				<label htmlFor="deck-title">Deck tilte</label>
 				<input
 					id="deck-title"

@@ -21,7 +21,7 @@ app.post("/decks", async (req: Request, res: Response) => {
 		title: req.body.title,
 	});
 	const createdDeck = await newDeck.save();
-	res.status(200).json({ createdDeck });
+	res.status(200).json(createdDeck);
 });
 
 // Connection
