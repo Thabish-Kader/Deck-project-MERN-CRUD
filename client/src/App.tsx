@@ -1,19 +1,23 @@
 import { FormEvent, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import { Deck } from "./typings";
 
 function App() {
 	const [title, setTitle] = useState("");
-	const [decks, setDecks] = useState([]);
-	const sendTitle = (e: FormEvent) => {
+	const [decks, setDecks] = useState<Deck[]>([]);
+
+	const sendTitle = async (e: FormEvent) => {
 		e.preventDefault();
-		fetch("http://localhost:5001/decks", {
+		const res = await fetch("http://localhost:5001/decks", {
 			method: "POST",
 			body: JSON.stringify({ title }),
 			headers: {
 				"Content-type": "application/json",
 			},
 		});
+		const newDecks = res.json();
+
 		setTitle("");
 	};
 
@@ -21,7 +25,9 @@ function App() {
 		const fetchDecks = async () => {
 			const res = await fetch("http://localhost:5001/decks");
 			const newDecks = await res.json();
+			console.log(newDecks);
 			setDecks(newDecks);
+			// setDecks([...decks], newDecks);
 		};
 		fetchDecks();
 	}, []);
