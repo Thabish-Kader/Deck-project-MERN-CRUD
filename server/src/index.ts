@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import { config } from "dotenv";
 import Deck from "./models/Deck";
 import cors from "cors";
+import { getDeckController } from "./controller/getDeckController";
+import { deleteDeckController } from "./controller/deleteDeckController";
+import { createDeckController } from "./controller/createDeckController";
 // CONFIGURATION
 config();
 const app = express();
@@ -11,24 +14,11 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.get("/decks", async (req: Request, res: Response) => {
-	const Decks = await Deck.find();
-	res.json(Decks);
-});
+app.get("/decks", getDeckController);
 
-app.post("/decks", async (req: Request, res: Response) => {
-	const newDeck = new Deck({
-		title: req.body.title,
-	});
-	const createdDeck = await newDeck.save();
-	res.status(200).json(createdDeck);
-});
+app.post("/decks", createDeckController);
 
-app.delete("/decks/:deckId", async (req: Request, res: Response) => {
-	const { deckId } = req.params;
-	const deletedDeck = await Deck.findByIdAndDelete(deckId);
-	res.json(deletedDeck);
-});
+app.delete("/decks/:deckId", deleteDeckController);
 
 // Connection
 mongoose.connect(process.env.MONGO_URL!).then(() => {
