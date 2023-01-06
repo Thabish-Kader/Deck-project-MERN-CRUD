@@ -5,7 +5,7 @@ import { Deck } from "./typings";
 import { API_URL } from "./config";
 import { createdDeck } from "./api/createDeck";
 import { deleteDeck } from "./api/deleteDeck";
-
+import { Link } from "react-router-dom";
 function App() {
 	const [title, setTitle] = useState("");
 	const [decks, setDecks] = useState<Deck[]>([]);
@@ -36,7 +36,7 @@ function App() {
 			<ul className="decks">
 				{decks.map((deck) => (
 					<li key={deck._id}>
-						{deck.title}
+						<Link to={`/decks/${deck._id}`}>{deck.title}</Link>
 						<button onClick={() => handleDeleteDeck(deck._id)}>
 							Delete
 						</button>
