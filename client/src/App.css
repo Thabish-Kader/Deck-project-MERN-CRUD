@@ -35,11 +35,18 @@
 	background: white;
 	border: 1px solid white;
 	border-radius: 10px;
+	cursor: pointer;
+}
+
+.decks li:hover {
+	background: rgb(212, 212, 212);
 }
 
 .decks li button {
 	position: absolute;
 	font-size: 10px;
-	top: 5px;
-	right: 5px;
+	/* top: 5px;
+	right: 5px; */
+	bottom: 0;
+	width: 50%;
 }

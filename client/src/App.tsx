@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { Deck } from "./typings";
+import { API_URL } from "./config";
 
 function App() {
 	const [title, setTitle] = useState("");
@@ -9,7 +10,7 @@ function App() {
 
 	const createDeck = async (e: FormEvent) => {
 		e.preventDefault();
-		const res = await fetch("http://localhost:5001/decks", {
+		const res = await fetch(`${API_URL}/decks`, {
 			method: "POST",
 			body: JSON.stringify({ title }),
 			headers: {
@@ -22,9 +23,17 @@ function App() {
 		setTitle("");
 	};
 
+	const deleteDeck = async (id: string) => {
+		const res = await fetch(`${API_URL}/decks/${id}`, {
+			method: "DELETE",
+		});
+		const deletedDeck: Deck = await res.json();
+		setDecks(decks.filter((deck) => deck._id !== deletedDeck._id));
+	};
+
 	useEffect(() => {
 		const fetchDecks = async () => {
-			const res = await fetch("http://localhost:5001/decks");
+			const res = await fetch(`${API_URL}/decks`);
 			const newDecks = await res.json();
 			setDecks(newDecks);
 		};
@@ -35,7 +44,12 @@ function App() {
 		<div className="App">
 			<ul className="decks">
 				{decks.map((deck) => (
-					<li key={deck._id}>{deck.title}</li>
+					<li key={deck._id}>
+						{deck.title}
+						<button onClick={() => deleteDeck(deck._id)}>
+							Delete
+						</button>
+					</li>
 				))}
 			</ul>
 			<form onSubmit={createDeck}>
