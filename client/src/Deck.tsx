@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Deck as TDeck } from "./typings";
 import { createCard } from "./api/createCard";
 import { getDeck } from "./api/getDeck";
+import { deleteCard } from "./api/deleteCArd";
 
 export const Deck = () => {
 	const [text, setText] = useState("");
@@ -27,7 +28,11 @@ export const Deck = () => {
 		fetchDeck();
 	}, [deckId]);
 
-	const handleDeleteCard = (index: number) => {};
+	const handleDeleteCard = async (index: number) => {
+		if (!deckId) return;
+		const newDeck = await deleteCard(deckId, index);
+		setCards(newDeck.cards);
+	};
 	return (
 		<div className="App">
 			<ul className="decks">
