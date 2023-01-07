@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Deck as TDeck } from "./typings";
+import { createCard } from "./api/createCard";
 
 export const Deck = () => {
 	const [text, setText] = useState("");
 	const [cards, setCards] = useState<string[]>([]);
-	const [deck, setDeck] = useState<TDeck>();
+	const [deck, setDeck] = useState<TDeck[]>([]);
 	const { deckId } = useParams();
 
-	const handleCreateCard = () => {};
+	const handleCreateCard = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (!deckId) return;
+		const newDeck = await createCard(deckId, text);
+		setDeck([...deck, newDeck]);
+	};
 
 	const handleDeleteCard = (index: number) => {};
 	return (
