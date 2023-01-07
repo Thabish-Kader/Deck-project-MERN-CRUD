@@ -8,6 +8,7 @@ import { deleteDeckController } from "./controller/deleteDeckController";
 import { createDeckController } from "./controller/createDeckController";
 import { createCardController } from "./controller/createCardController";
 import { getCardController } from "./controller/getCardController";
+import { deleteCardOnDeckController } from "./controller/deleteCardOnDeckController";
 // CONFIGURATION
 config();
 const app = express();
@@ -24,6 +25,7 @@ app.delete("/decks/:deckId", deleteDeckController);
 
 //cards
 app.route("/decks/:deckId").post(createCardController).get(getCardController);
+app.delete("/decks/:deckId/cards/:index", deleteCardOnDeckController);
 
 // Connection
 mongoose.connect(process.env.MONGO_URL!).then(() => {

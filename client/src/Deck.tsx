@@ -1,26 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Deck as TDeck } from "./typings";
 import { createCard } from "./api/createCard";
+import { getDeck } from "./api/getDeck";
 
 export const Deck = () => {
 	const [text, setText] = useState("");
 	const [cards, setCards] = useState<string[]>([]);
-	const [deck, setDeck] = useState<TDeck[]>([]);
+	const [deck, setDeck] = useState<TDeck>();
 	const { deckId } = useParams();
 
 	const handleCreateCard = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!deckId) return;
 		const newDeck = await createCard(deckId, text);
-		setDeck([...deck, newDeck]);
+		setDeck(newDeck);
+		setText("");
 	};
+
+	useEffect(() => {
+		if (!deckId) return;
+		const fetchDeck = async () => {
+			const resDeck = await getDeck(deckId);
+			setDeck(resDeck);
+		};
+		fetchDeck();
+	}, [deckId]);
 
 	const handleDeleteCard = (index: number) => {};
 	return (
 		<div className="App">
 			<ul className="decks">
-				{cards.map((card, index) => (
+				{deck?.cards.map((card, index) => (
 					<li key={card}>
 						{card}
 						<button onClick={() => handleDeleteCard(index)}>
