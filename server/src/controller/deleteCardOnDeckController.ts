@@ -8,7 +8,7 @@ export const deleteCardOnDeckController = async (
 	const { deckId, index } = req.params;
 	const deck = await DeckModel.findById(deckId);
 	if (!deck) return res.status(400).send("No such card");
-	delete deck.cards[index];
+	deck.cards.splice(parseInt(index), 1);
 	await deck.save();
 	res.json(deck);
 };
