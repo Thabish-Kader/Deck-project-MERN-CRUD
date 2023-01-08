@@ -2,6 +2,8 @@
 
 ### MERN
 
+A simple CRUD application to implement best practice and polish fundamentals of express and mongodb
+
 <img align="left" alt="TypeScript" width="30px" style="padding-right:10px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" />
 <img align="left" alt="ReactJS" width="30px" style="padding-right:10px;" src="https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg" />
 
